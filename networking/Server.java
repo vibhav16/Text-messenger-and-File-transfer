@@ -11,7 +11,6 @@ import javax.swing.SwingUtilities;
 
 import networking.JFilePicker;
 import networking.FileTypeFilter;
-import networking.TestJFilePicker;
 
 public class Server extends JFrame {
 	public static ServerSocket ss,ss1;
@@ -53,14 +52,27 @@ public class Server extends JFrame {
     	System.out.println("Type 'F' to transfer file and Type 'C' to chat with other clients...");
     	Scanner sc=new Scanner(System.in);
     	user1=sc.nextLine();
+    	if(user1.equals("F"))
+    	{
+    	  SwingUtilities.invokeLater(new Runnable() {
+              @Override
+              public void run() {
+            	  System.out.println("Server signing On");
+            	  
+                 new Server().setVisible(true);
+              }
+          });
+    	  
+    	}
     	
-    	 if(user1.equals("C")){
+    	else if(user1.equals("C")){
     	  	  
             System.out.println("Server signing On");
+            ss = new ServerSocket(9087);
             
             for (int i = 0; i < 10; i++) {
-            	System.out.println("saa");
-            	ss = new ServerSocket(9083);
+            	
+            	
                 soc = ss.accept();
                 
                 Conversation c = new Conversation(soc);
