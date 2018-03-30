@@ -10,21 +10,23 @@ import networking.JFilePicker;
 
 public class client{
 
-    public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
     public static void main(String[] args) throws Exception  {
         Socket soc;
         Socket soc1;
         
-//        try{
-//        	soc1=new Socket("172.16.96.26",19082);
-//        	TCPClient c=new TCPClient(soc1);
-//        	}
-//        catch (Exception e) {
-//			// TODO: handle exception
-//        	System.out.println("fail");
-//        }
-//        try{
-        	soc=new Socket("172.16.96.26",9083);
+        try
+        {soc1=new Socket("192.168.43.37",9082);
+        
+        TCPClient c=new TCPClient(soc1);
+        	
+        	}
+        	catch (Exception e) {
+        		System.out.println("fail");
+				// TODO: handle exception
+			}
+        		
+        try{
+        	soc=new Socket("192.168.43.37",9087);
         	Scanner sc = new Scanner(System.in);
             BufferedReader nis = new BufferedReader(new InputStreamReader(soc.getInputStream()));
             PrintWriter nos = new PrintWriter(new BufferedWriter(new OutputStreamWriter(soc.getOutputStream())),true);
@@ -61,16 +63,17 @@ public class client{
              Thread.sleep(1000);
              System.exit(0);
              
-//        	}
-//        catch (Exception e) {
-//			// TODO: handle exception
-//        	System.out.println("fail2");
-//		}
+        	}
+        catch (Exception e) {
+			// TODO: handle exception
+        	System.out.println("fail2");
+		}
+        }
         
        
     }
     
-}
+
 class ChatListener implements ActionListener{
    JTextField tf ;
    PrintWriter nos;
@@ -100,7 +103,7 @@ class TCPClient {
         byte[] aByte = new byte[1];
         int bytesRead;
 
-        Socket clientSocket = null;
+        
         InputStream is = null;
 
         try {
@@ -131,8 +134,16 @@ class TCPClient {
                 bos.close();
                 soc.close();
             } catch (IOException ex) {
+            	System.out.println("fail3");
                 // Do exception handling
             }
         }
+        try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.exit(0); 
     }
 }
