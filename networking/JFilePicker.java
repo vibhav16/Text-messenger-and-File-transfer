@@ -3,8 +3,14 @@ package networking;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -57,7 +63,8 @@ public class JFilePicker extends JPanel {
         fileChooser = new JFileChooser();
          
         setLayout(new FlowLayout(FlowLayout.CENTER, 4, 4));
-
+ 
+        // creates the GUI
         label = new JLabel(textFieldLabel);
          
         textField = new JTextField(20);
@@ -80,8 +87,17 @@ public class JFilePicker extends JPanel {
 					 
 						System.out.println(getSelectedFilePath());
 						Server.ss1 = new ServerSocket(9082);
-						Server.soc1=Server.ss1.accept();
-						TCPServer server=new TCPServer(Server.soc1);
+						
+						
+						for (int i = 0; i < 10; i++) {
+		                     						
+								Server.soc1=Server.ss1.accept();													
+							
+							TCPServer server=new TCPServer(Server.soc1,getSelectedFilePath());
+		                     server.start();
+						
+						}					
+						
 						System.out.println("File Sent");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -126,5 +142,54 @@ public class JFilePicker extends JPanel {
      
     public JFileChooser getFileChooser() {
         return this.fileChooser;
+    }
+}
+
+class TCPServer extends Thread
+{
+	private  String fileToSend = "";
+	Socket soc;
+	public TCPServer(Socket soc,String s)
+	{
+       this.soc=soc;
+       this.fileToSend=s;
+        while (true) {
+
+            BufferedOutputStream outToClient = null;
+
+            try 
+			{
+                outToClient = new BufferedOutputStream(soc.getOutputStream());
+            } catch (IOException ex) {
+                // Do exception handling
+            }
+
+            if (outToClient != null) {
+                File myFile = new File( fileToSend );
+                byte[] mybytearray = new byte[(int) myFile.length()];
+
+                FileInputStream fis = null;
+
+                try {
+                    fis = new FileInputStream(myFile);
+                } catch (FileNotFoundException ex) {
+                    // Do exception handling
+                }
+                BufferedInputStream bis = new BufferedInputStream(fis);
+
+                try {
+                    bis.read(mybytearray, 0, mybytearray.length);
+                    outToClient.write(mybytearray, 0, mybytearray.length);
+                    outToClient.flush();
+                    outToClient.close();
+                    soc.close();
+
+                    // File sent, exit the main method
+                    return;
+                } catch (IOException ex) {
+                    // Do exception handling
+                }
+            }
+        }
     }
 }

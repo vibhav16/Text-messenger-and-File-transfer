@@ -44,14 +44,14 @@ public class FileMClient {
                 } while (bytesRead != -1);
 
                 bos.write(baos.toByteArray());
-//                bos.flush();
-//                bos.close();
+                bos.flush();
+                bos.close();
                 clientSocket.close();
             } catch (IOException ex) {
                 // Do exception handling
             }
         }
-//        Thread.sleep(1000);
-//        System.exit(0);   
+        Thread.sleep(1000);
+        System.exit(0);   
     }
 }

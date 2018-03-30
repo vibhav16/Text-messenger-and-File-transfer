@@ -15,7 +15,7 @@ public class client{
         Socket soc1;
         
         try
-        {soc1=new Socket("172.16.96.26",9082);
+        {soc1=new Socket("192.168.43.37",9082);
         
         TCPClient c=new TCPClient(soc1);
         	
@@ -26,7 +26,7 @@ public class client{
 			}
         		
         try{
-        	soc=new Socket("172.16.96.26",9087);
+        	soc=new Socket("192.168.43.37",9087);
         	Scanner sc = new Scanner(System.in);
             BufferedReader nis = new BufferedReader(new InputStreamReader(soc.getInputStream()));
             PrintWriter nos = new PrintWriter(new BufferedWriter(new OutputStreamWriter(soc.getOutputStream())),true);
@@ -103,7 +103,7 @@ class TCPClient {
         byte[] aByte = new byte[1];
         int bytesRead;
 
-        Socket clientSocket = null;
+        
         InputStream is = null;
 
         try {
@@ -138,5 +138,12 @@ class TCPClient {
                 // Do exception handling
             }
         }
+        try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.exit(0); 
     }
 }

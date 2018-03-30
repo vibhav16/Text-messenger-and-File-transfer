@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import networking.JFilePicker;
 import networking.FileTypeFilter;
 
+
 public class Server extends JFrame {
 	public static ServerSocket ss,ss1;
 	public static Socket soc,soc1;
@@ -56,10 +57,12 @@ public class Server extends JFrame {
     	{
     	  SwingUtilities.invokeLater(new Runnable() {
               @Override
-              public void run() {
-            	  System.out.println("Server signing On");
-            	  
-                 new Server().setVisible(true);
+              public void run() 
+              {
+            	  System.out.println("Server signing On");           	    
+            	 new Server().setVisible(true);
+                 
+                               
               }
           });
     	  
@@ -70,11 +73,10 @@ public class Server extends JFrame {
             System.out.println("Server signing On");
             ss = new ServerSocket(9087);
             
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 10; i++) 
+            {
             	
-            	
-                soc = ss.accept();
-                
+                soc = ss.accept();              
                 Conversation c = new Conversation(soc);
                 c.start();
             }
@@ -133,7 +135,7 @@ public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
     }
 }
 
-class TCPServer 
+/*class TCPServer extends Thread
 {
 	private final static String fileToSend = "C:\\Users\\VIBHAV\\Desktop\\FileClient.java";
 	Socket soc;
@@ -179,4 +181,4 @@ class TCPServer
             }
         }
     }
-}
+}*/
